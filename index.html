@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
   :root{
     --navy:#0A1530;--navy-2:#0F2147;--surface:#142A52;--surface-2:#1B356A;
@@ -306,12 +307,14 @@
   a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--bright);outline-offset:2px;border-radius:6px}
 
   body{background:#080B16}
-  body::before{content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;
+  body::before{content:"";position:fixed;inset:0;z-index:-4;pointer-events:none;
+    animation:hueShift 34s ease-in-out infinite;
     background:
       radial-gradient(1100px 660px at 80% -12%, rgba(47,224,230,.16), transparent 60%),
       radial-gradient(900px 580px at 0% 8%, rgba(109,92,255,.20), transparent 58%),
       radial-gradient(820px 820px at 50% 122%, rgba(255,92,157,.12), transparent 60%),
       linear-gradient(180deg,#0a1024,#080b16 55%,#0a0f20)}
+  @keyframes hueShift{0%{filter:hue-rotate(-28deg) saturate(1)}50%{filter:hue-rotate(34deg) saturate(1.15)}100%{filter:hue-rotate(-28deg) saturate(1)}}
   .mesh{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.4;
     background-image:
       linear-gradient(rgba(130,170,238,.05) 1px,transparent 1px),
@@ -338,7 +341,8 @@
   .btn-primary{background:linear-gradient(120deg,var(--blue),#5a48f0);border-color:transparent;color:#fff}
   .btn-primary:hover{background:linear-gradient(120deg,#7a6bff,#6354ff)}
   .grad{background:linear-gradient(100deg,var(--bright),var(--blue) 52%,var(--crimson));background-size:220% 220%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-  #pulse{position:fixed;inset:0;z-index:-1;pointer-events:none}
+  #scene3d{position:fixed;inset:0;z-index:-1;pointer-events:none}
+  #scene3d canvas{display:block}
 
   /* ---- multi-page routing in one file ---- */
   .page{display:none}
@@ -371,7 +375,7 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
 </script>
 <div class="progress" id="progress"></div>
 <div class="mesh"></div>
-<canvas id="pulse" aria-hidden="true"></canvas>
+<div id="scene3d" aria-hidden="true"></div>
 
 <div class="topbar">
   <div class="wrap">
@@ -615,41 +619,61 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
     }
   })();
 
-  /* ===== living EEG signal canvas — the signature ===== */
+  /* ===== 3D signal terrain — the signature (WebGL / high-DPR) ===== */
   (function(){
-    var c=document.getElementById('pulse'); if(!c)return; var ctx=c.getContext('2d');
-    var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches; var W,H,DPR;
-    function size(){DPR=Math.min(devicePixelRatio||1,2);W=c.width=innerWidth*DPR;H=c.height=innerHeight*DPR;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';}
-    size(); addEventListener('resize',size);
-    var px=-99999,py=-99999;
-    addEventListener('pointermove',function(e){px=e.clientX*DPR;py=e.clientY*DPR;},{passive:true});
-    addEventListener('pointerleave',function(){px=-99999;py=-99999;});
-    var lines=[
-      {f:0.30,col:[47,224,230],amp:24,per:430,spd:46,ph:0.0},
-      {f:0.50,col:[109,92,255],amp:32,per:620,spd:34,ph:1.7},
-      {f:0.70,col:[255,92,157],amp:20,per:520,spd:54,ph:3.1}
-    ];
-    var boost=0; window.__pulseBurst=function(){boost=1;};
-    function spike(u){var d=u-0.5;return Math.exp(-(d*d)/0.0016)*(d<0?1:-1.15);}
-    function draw(t){
-      ctx.clearRect(0,0,W,H); ctx.globalCompositeOperation='lighter';
-      for(var li=0;li<lines.length;li++){
-        var L=lines[li], base=H*L.f, amp=L.amp*DPR, per=L.per*DPR, off=t*0.001*L.spd*DPR;
-        ctx.beginPath();
-        for(var x=0;x<=W;x+=6*DPR){
-          var u=((((x+off)%per)+per)%per)/per;
-          var y=base+amp*(0.32*Math.sin(x*0.006/DPR+t*0.0011+L.ph)+(1+boost*2.4)*spike(u));
-          if(px>-9000){var dx=x-px,dy=base-py;var bump=Math.exp(-(dx*dx)/(2*(72*DPR)*(72*DPR)))*Math.exp(-(dy*dy)/(2*(64*DPR)*(64*DPR)));y-=bump*78*DPR;}
-          if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
-        }
-        var col='rgb('+L.col[0]+','+L.col[1]+','+L.col[2]+')';
-        ctx.strokeStyle=col; ctx.lineWidth=2*DPR; ctx.shadowColor=col; ctx.shadowBlur=16*DPR; ctx.globalAlpha=.9; ctx.stroke();
-      }
-      ctx.globalAlpha=1; ctx.shadowBlur=0; ctx.globalCompositeOperation='source-over';
-      boost*=0.95; if(boost<0.001)boost=0;
+    var host=document.getElementById('scene3d'); if(!host||!window.THREE){return;}
+    var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var scene=new THREE.Scene();
+    scene.fog=new THREE.FogExp2(0x080B16, 0.0065);
+    var camera=new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 1000);
+    camera.position.set(0,30,66);
+    var renderer=new THREE.WebGLRenderer({alpha:true, antialias:true, powerPreference:'high-performance'});
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1, 2));   /* crisp high-DPR */
+    renderer.setSize(innerWidth, innerHeight);
+    host.appendChild(renderer.domElement);
+
+    var GX=132, GZ=84, GAP=2.2, count=GX*GZ;
+    var geo=new THREE.BufferGeometry();
+    var pos=new Float32Array(count*3), col=new Float32Array(count*3);
+    var cA=new THREE.Color(0x2FE0E6), cB=new THREE.Color(0x6D5CFF), cC=new THREE.Color(0xFF5C9D), tmp=new THREE.Color();
+    var k=0;
+    for(var z=0; z<GZ; z++){ for(var x=0; x<GX; x++){
+      pos[k*3]=(x-GX/2)*GAP; pos[k*3+1]=0; pos[k*3+2]=(z-GZ/2)*GAP;
+      var d=z/GZ;
+      if(d<0.5){tmp.copy(cA).lerp(cB, d*2);} else {tmp.copy(cB).lerp(cC,(d-0.5)*2);}
+      col[k*3]=tmp.r; col[k*3+1]=tmp.g; col[k*3+2]=tmp.b; k++;
+    }}
+    geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
+    geo.setAttribute('color', new THREE.BufferAttribute(col,3));
+    var mat=new THREE.PointsMaterial({size:1.5, vertexColors:true, transparent:true, opacity:.92, blending:THREE.AdditiveBlending, depthWrite:false, sizeAttenuation:true});
+    var pts=new THREE.Points(geo, mat); scene.add(pts);
+
+    var mx=0,my=0;
+    addEventListener('pointermove',function(e){mx=(e.clientX/innerWidth-0.5); my=(e.clientY/innerHeight-0.5);},{passive:true});
+    var boost=0; window.__pulseBurst=function(){boost=1.0;};
+    function resize(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.setSize(innerWidth,innerHeight);}
+    addEventListener('resize',resize);
+
+    var arr=geo.attributes.position.array, raf;
+    function frame(ms){
+      var t=ms*0.001, kk=0;
+      for(var z=0; z<GZ; z++){ for(var x=0; x<GX; x++){
+        var X=(x-GX/2)*GAP, Z=(z-GZ/2)*GAP, d=Math.sqrt(X*X+Z*Z);
+        arr[kk*3+1]=Math.sin(X*0.12+t*1.2)*1.5 + Math.cos(Z*0.16-t*0.9)*1.5 + Math.sin(d*0.18-t*1.7)*(2.0+boost*4.5);
+        kk++;
+      }}
+      geo.attributes.position.needsUpdate=true;
+      pts.rotation.y = mx*0.35;
+      camera.position.x += (mx*16 - camera.position.x)*0.05;
+      camera.position.y += ((30 - my*10) - camera.position.y)*0.05;
+      camera.lookAt(0,0,-8);
+      boost*=0.94; if(boost<0.001)boost=0;
+      renderer.render(scene,camera);
+      raf=requestAnimationFrame(frame);
     }
-    if(reduce){draw(0);return;}
-    (function loop(t){draw(t);requestAnimationFrame(loop);})(0);
+    if(reduce){ frame(0); cancelAnimationFrame(raf); }
+    else { raf=requestAnimationFrame(frame); }
+    document.addEventListener('visibilitychange',function(){ if(document.hidden){cancelAnimationFrame(raf);} else if(!reduce){raf=requestAnimationFrame(frame);} });
   })();
 
   /* boot: respect existing hash, else home */
