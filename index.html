@@ -324,25 +324,19 @@
     mask-image:radial-gradient(135% 100% at 50% 6%,#000 26%,transparent 80%);
     animation:gridDrift 50s linear infinite}
   @keyframes gridDrift{to{background-position:52px 52px,52px 52px}}
-  .signalbg{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;opacity:.9}
-  .signalbg svg{position:absolute;inset:0;width:100%;height:100%}
-  .signalbg .wave{fill:none;stroke-width:2.4;stroke-linecap:round}
-  .signalbg .we{opacity:.20;animation:wvE 14s linear infinite}
-  .signalbg .wa{opacity:.16;animation:wvA 28s linear infinite}
-  .signalbg .wb{opacity:.13;animation:wvB 46s linear infinite}
-  .signalbg .we .wave{stroke:var(--bright)} .signalbg .wa .wave{stroke:var(--blue)} .signalbg .wb .wave{stroke:var(--crimson)}
-  @keyframes wvE{to{transform:translateX(-250px)}}
-  @keyframes wvA{to{transform:translateX(-500px)}}
-  @keyframes wvB{to{transform:translateX(-1000px)}}
-  @media(prefers-reduced-motion:reduce){.mesh,.signalbg .we,.signalbg .wa,.signalbg .wb{animation:none}}
+  @media(prefers-reduced-motion:reduce){.mesh{animation:none}}
 
   :root{--navy:#0A0E1A; --surface:#161D31; --line:#2A3658; --blue:#6D5CFF; --bright:#2FE0E6; --crimson:#FF5C9D; --text:#EEF2FB; --muted:#9FACCC;}
   .progress{background:linear-gradient(90deg,var(--bright),var(--blue),var(--crimson))}
   .btn-primary{background:linear-gradient(120deg,var(--blue),#5a48f0);border-color:transparent;color:#fff}
   .btn-primary:hover{background:linear-gradient(120deg,#7a6bff,#6354ff)}
   .grad{background:linear-gradient(100deg,var(--bright),var(--blue) 52%,var(--crimson));background-size:220% 220%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-  #scene3d{position:fixed;inset:0;z-index:-1;pointer-events:none}
+  #scene3d{position:fixed;inset:0;z-index:-1;pointer-events:none;animation:scenehue 40s linear infinite}
   #scene3d canvas{display:block}
+  body::before{animation:bghue 48s linear infinite}
+  @keyframes bghue{to{filter:hue-rotate(360deg)}}
+  @keyframes scenehue{to{filter:hue-rotate(360deg)}}
+  @media(prefers-reduced-motion:reduce){body::before,#scene3d{animation:none}}
 
   /* ---- multi-page routing in one file ---- */
   .page{display:none}
@@ -632,7 +626,7 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
     renderer.setSize(innerWidth, innerHeight);
     host.appendChild(renderer.domElement);
 
-    var GX=132, GZ=84, GAP=2.2, count=GX*GZ;
+    var GX=160, GZ=104, GAP=1.9, count=GX*GZ;
     var geo=new THREE.BufferGeometry();
     var pos=new Float32Array(count*3), col=new Float32Array(count*3);
     var cA=new THREE.Color(0x2FE0E6), cB=new THREE.Color(0x6D5CFF), cC=new THREE.Color(0xFF5C9D), tmp=new THREE.Color();
@@ -663,7 +657,7 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
         kk++;
       }}
       geo.attributes.position.needsUpdate=true;
-      pts.rotation.y = mx*0.35;
+      pts.rotation.y = mx*0.35 + t*0.03;
       camera.position.x += (mx*16 - camera.position.x)*0.05;
       camera.position.y += ((30 - my*10) - camera.position.y)*0.05;
       camera.lookAt(0,0,-8);
