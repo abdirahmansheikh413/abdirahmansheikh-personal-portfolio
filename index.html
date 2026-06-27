@@ -331,10 +331,10 @@
   .btn-primary{background:linear-gradient(120deg,var(--blue),#5a48f0);border-color:transparent;color:#fff}
   .btn-primary:hover{background:linear-gradient(120deg,#7a6bff,#6354ff)}
   .grad{background:linear-gradient(100deg,var(--bright),var(--blue) 52%,var(--crimson));background-size:220% 220%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-  #scene3d{position:fixed;inset:0;z-index:-1;pointer-events:none;animation:scenehue 40s linear infinite}
+  #scene3d{position:fixed;inset:0;z-index:-1;pointer-events:none}
   #scene3d canvas{display:block}
   .hero .frame img{object-fit:cover;object-position:center 15%}
-  body::before{animation:bghue 48s linear infinite}
+  body::before{animation:none}
   @keyframes bghue{to{filter:hue-rotate(360deg)}}
   @keyframes scenehue{to{filter:hue-rotate(360deg)}}
   @media(prefers-reduced-motion:reduce){body::before,#scene3d{animation:none}}
@@ -351,8 +351,8 @@
   /* ---- all text: bold, pure white, readable over 3D bg ---- */
   :root{--text:#FFFFFF;--muted:#FFFFFF}
   .topbar,.topbar *,.page,.page *,footer,footer *{color:#FFFFFF !important}
-  body{font-weight:600;color:#FFFFFF}
-  p,li,a,span,small,label,input,textarea,button,figcaption,.lede,.story,.story p,.cap,.lv,.l,.g,.when,.org,.by,.tag,.st span,.vchip small,.counter .l,.role,.mono,.chap-eyebrow,.kicker{font-weight:600 !important}
+  body{font-weight:400;color:#FFFFFF}
+  p,li,a,span,small,label,input,textarea,button,figcaption,.lede,.story,.story p,.cap,.lv,.l,.g,.when,.org,.by,.tag,.st span,.vchip small,.counter .l,.role,.mono,.chap-eyebrow,.kicker{font-weight:450 !important}
   h1,h2,h3,h4,.chap-num,.n,.y,.exp h3,.pcard h3,.cinfo h3,.cinfo strong{font-weight:800 !important}
   b,strong{font-weight:800 !important;color:#FFFFFF !important}
   .mono,.chap-eyebrow,.kicker{letter-spacing:.08em}
@@ -647,7 +647,7 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
     }}
     geo.setAttribute('position', new THREE.BufferAttribute(pos,3));
     geo.setAttribute('color', new THREE.BufferAttribute(col,3));
-    var mat=new THREE.PointsMaterial({size:1.5, vertexColors:true, transparent:true, opacity:.92, blending:THREE.AdditiveBlending, depthWrite:false, sizeAttenuation:true});
+    var mat=new THREE.PointsMaterial({size:1.4, vertexColors:true, transparent:true, opacity:.6, blending:THREE.AdditiveBlending, depthWrite:false, sizeAttenuation:true});
     var pts=new THREE.Points(geo, mat); scene.add(pts);
 
     var mx=0,my=0;
@@ -665,7 +665,7 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
         kk++;
       }}
       geo.attributes.position.needsUpdate=true;
-      pts.rotation.y = mx*0.35 + t*0.03;
+      pts.rotation.y = mx*0.28 + t*0.012;
       camera.position.x += (mx*16 - camera.position.x)*0.05;
       camera.position.y += ((30 - my*10) - camera.position.y)*0.05;
       camera.lookAt(0,0,-8);
