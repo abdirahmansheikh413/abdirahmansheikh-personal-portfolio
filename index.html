@@ -361,6 +361,11 @@
   ::placeholder{color:rgba(255,255,255,.72) !important}
   /* lift text off the animated background */
   h1,h2,h3,h4,p,li,a,.lede,.story p,.role,.by,.cap,.mono,.lv,.when,.org,.g,.l,.tag,.st span{text-shadow:0 1px 5px rgba(4,7,16,.7)}
+  .skillcloud{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+  .skillcloud span{font:600 .82rem/1 var(--mono,monospace);color:#fff;border:1px solid rgba(126,160,224,.4);background:rgba(126,160,224,.10);padding:8px 13px;border-radius:999px}
+  .edu{margin-top:18px;border:1px solid var(--line);border-radius:14px;padding:20px 22px;background:linear-gradient(160deg,rgba(255,255,255,.04),transparent)}
+  .edu .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;align-items:baseline}
+  .edu .gpa{font:700 .85rem/1 var(--mono,monospace);color:#fff;border:1px solid rgba(126,160,224,.4);padding:6px 11px;border-radius:999px}
 </style>
 </head>
 <body>
@@ -469,22 +474,25 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
   </div>
 </div></section></div>
 <div class="page" id="page-work" data-page="work"><section class="chapter" id="craft"><div class="wrap">
-  <div class="rv"><div class="chap-num serif" data-par="38">03</div><div class="mono chap-eyebrow">The craft</div><h2>The tools I learned to tell it with.</h2>
-  <p class="story">A blend of technical depth and the human skills that turn requirements into working systems.</p></div>
+  <div class="rv"><div class="chap-num serif" data-par="38">03</div><div class="mono chap-eyebrow">The craft</div><h2>The tools I build with.</h2>
+  <p class="story">CIS major at Georgia State University (Data Analytics). I build practical tools with Python, HTML/CSS, and SQL, with hands-on experience in WordPress, Tableau, Power BI, and IT support — seeking roles where I can grow analytics skills and contribute to technical teams.</p></div>
   <div class="skills rv d1" id="skills">
     <div class="sg"><h3>Technical</h3>
       <div class="skill"><div class="t"><span>AI Automation</span><span class="lv">Strong</span></div><div class="bar"><i data-w="88"></i></div></div>
       <div class="skill"><div class="t"><span>Python</span><span class="lv">Intermediate</span></div><div class="bar"><i data-w="78"></i></div></div>
-      <div class="skill"><div class="t"><span>SQL &amp; Databases</span><span class="lv">Intermediate</span></div><div class="bar"><i data-w="75"></i></div></div>
+      <div class="skill"><div class="t"><span>SQL · MySQL / PostgreSQL</span><span class="lv">Intermediate</span></div><div class="bar"><i data-w="75"></i></div></div>
       <div class="skill"><div class="t"><span>Data Analytics · Power BI / Tableau</span><span class="lv">Intermediate</span></div><div class="bar"><i data-w="73"></i></div></div>
-      <div class="skill"><div class="t"><span>Cloud Technologies</span><span class="lv">Developing</span></div><div class="bar"><i data-w="60"></i></div></div>
+      <div class="skill"><div class="t"><span>HTML / CSS &amp; Web</span><span class="lv">Strong</span></div><div class="bar"><i data-w="84"></i></div></div>
     </div>
     <div class="sg"><h3>Building &amp; Professional</h3>
       <div class="skill"><div class="t"><span>Business Process Improvement</span><span class="lv">Strong</span></div><div class="bar"><i data-w="86"></i></div></div>
-      <div class="skill"><div class="t"><span>WordPress &amp; Web</span><span class="lv">Strong</span></div><div class="bar"><i data-w="84"></i></div></div>
-      <div class="skill"><div class="t"><span>Communication</span><span class="lv">Strong</span></div><div class="bar"><i data-w="90"></i></div></div>
+      <div class="skill"><div class="t"><span>WordPress &amp; Wix</span><span class="lv">Strong</span></div><div class="bar"><i data-w="84"></i></div></div>
+      <div class="skill"><div class="t"><span>Communication &amp; Teamwork</span><span class="lv">Strong</span></div><div class="bar"><i data-w="90"></i></div></div>
       <div class="skill"><div class="t"><span>Project Management</span><span class="lv">Intermediate</span></div><div class="bar"><i data-w="76"></i></div></div>
     </div>
+  </div>
+  <div class="skillcloud rv d2">
+    <span>Python</span><span>SQL</span><span>MySQL</span><span>PostgreSQL</span><span>HTML</span><span>CSS</span><span>Power BI</span><span>Tableau</span><span>Machine Learning</span><span>Automation</span><span>UX Design</span><span>WordPress</span><span>Wix</span><span>PowerApps</span><span>Visual Studio</span><span>Microsoft Office</span><span>Communication</span><span>Teamwork</span><span>Time Management</span>
   </div>
 </div></section>
 <section class="pq"><div class="wrap rv">
@@ -511,10 +519,21 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
     <div class="exp">
       <div><div class="when">Jun – Jul 2025</div><div class="org">AMH Taxes &amp; Accounting · Clarkston, GA</div></div>
       <div><h3>IT Support Specialist</h3>
-        <ul><li>Migrated 5 years of secure tax records (2020–2024) with zero data loss &amp; IRS audit compliance</li>
-        <li>Diagnosed and resolved hardware/software issues, improving reliability</li>
-        <li>Installed a wireless printer network, eliminating manual bottlenecks</li></ul></div>
+        <ul><li>Migrated secure tax records (2020–2024) with zero data loss, giving senior management instant access and ensuring IRS audit compliance</li>
+        <li>Diagnosed and resolved software/hardware issues, improving daily operations</li>
+        <li>Installed and configured a wireless printer network, reducing manual bottlenecks</li></ul></div>
     </div>
+    <div class="exp">
+      <div><div class="when">Aug 2022 – May 2023</div><div class="org">Tucker High School · Tucker, GA</div></div>
+      <div><h3>Research &amp; Design Project Manager / Analytics Intern</h3>
+        <ul><li>Led design for a school bench project, researching optimal materials and designs</li>
+        <li>Produced custom plaques through design research and production management</li>
+        <li>Collaborated with supervisors and stakeholders to communicate progress and incorporate feedback</li></ul></div>
+    </div>
+  </div>
+  <div class="edu rv d2">
+    <div class="row"><h3>B.B.A., Computer Information Systems — Data Analytics</h3></div>
+    <p class="org">Georgia State University · J. Mack Robinson College of Business · Junior · Expected 2027</p>
   </div>
 </div></section></div>
 <div class="page" id="page-projects" data-page="projects"><section class="chapter" id="projects"><div class="wrap">
@@ -524,15 +543,15 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
     <button class="filter active" data-f="all">All</button>
     <button class="filter" data-f="ai">AI &amp; Automation</button>
     <button class="filter" data-f="data">Data &amp; BI</button>
-    <button class="filter" data-f="access">Accessibility</button>
-    <button class="filter" data-f="ops">Process</button>
+    <button class="filter" data-f="web">Web</button>
+    <button class="filter" data-f="ops">IT &amp; Process</button>
   </div>
   <div class="pgrid rv d2" id="pgrid">
-    <article class="pcard" data-cat="access"><div class="tag">Accessibility</div><h3>Accessibility &amp; Student Success Platform</h3><p>A platform concept for students with disabilities — accommodation scheduling, progress tracking, and self-advocacy tools — born from my work in GSU's Access &amp; Accommodations Center.</p><div class="st"><span>UX</span><span>Workflow</span><span>Student services</span></div></article>
-    <article class="pcard" data-cat="ai"><div class="tag">AI &amp; Automation</div><h3>AI-Powered Workflow Automation</h3><p>Multi-step automation connecting SaaS tools via REST APIs to route work without manual effort — the patterns I build for GTM pipelines with n8n, Apollo, and CRMs.</p><div class="st"><span>n8n</span><span>REST APIs</span><span>Python</span></div></article>
-    <article class="pcard" data-cat="ai"><div class="tag">AI &amp; Faith Tech</div><h3>Muslim Productivity &amp; Growth App</h3><p>A thought-organization and growth tool weaving intention-setting and reflection into daily focus — built to help users stay grounded, disciplined, and clear-minded.</p><div class="st"><span>Product design</span><span>AI</span><span>Web</span></div></article>
-    <article class="pcard" data-cat="data"><div class="tag">Data &amp; BI</div><h3>Business Intelligence Dashboard</h3><p>Interactive dashboards turning raw operational data into clear, decision-ready visuals — surfacing the trends that help teams act faster.</p><div class="st"><span>Power BI</span><span>Tableau</span><span>SQL</span></div></article>
-    <article class="pcard" data-cat="ops"><div class="tag">Process Improvement</div><h3>University Process Improvement</h3><p>Streamlined documentation, scheduling, and communication workflows in a high-volume student-services environment — cutting manual bottlenecks and improving response time.</p><div class="st"><span>Automation</span><span>Operations</span><span>Analysis</span></div></article>
+    <article class="pcard" data-cat="ai"><div class="tag">Developer · AI</div><h3>AI Recipe Tool — Meal Suggestions via OpenAI API</h3><p>A Python tool that turns the ingredients you have on hand into recipe suggestions using the OpenAI API, with dietary filters for different needs.</p><div class="st"><span>Python</span><span>OpenAI API</span><span>HTML/CSS</span></div></article>
+    <article class="pcard" data-cat="ai"><div class="tag">Developer · Automation</div><h3>n8n Telegram Bot Workflow — AI Assistant</h3><p>An AI assistant built as an n8n workflow connected to Telegram — handling messages and automating multi-step tasks through connected APIs.</p><div class="st"><span>n8n</span><span>Telegram</span><span>APIs</span></div></article>
+    <article class="pcard" data-cat="data"><div class="tag">Data &amp; BI</div><h3>Business Intelligence Dashboards</h3><p>Interactive dashboards turning raw operational data into clear, decision-ready visuals that help teams spot trends and act faster.</p><div class="st"><span>Power BI</span><span>Tableau</span><span>SQL</span></div></article>
+    <article class="pcard" data-cat="web"><div class="tag">Designer · Web</div><h3>WordPress Website for a Local Business</h3><p>A mobile-friendly website for a local business with booking and contact forms, SEO setup, and Google Analytics — built and launched end to end.</p><div class="st"><span>WordPress</span><span>SEO</span><span>UX</span></div></article>
+    <article class="pcard" data-cat="ops"><div class="tag">Project Lead · IT</div><h3>IT Optimization — Full Setup &amp; Streamlining</h3><p>Led a full infrastructure overhaul: cloud backups, VPN setup, hardware upgrades, and staff training to make daily operations faster and more reliable.</p><div class="st"><span>Infrastructure</span><span>Cloud backups</span><span>Training</span></div></article>
   </div>
 </div></section></div>
 <div class="page" id="page-contact" data-page="contact"><section class="chapter" id="contact"><div class="wrap">
@@ -540,9 +559,10 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
   <div class="cgrid rv d1">
     <div class="cinfo">
       <h3>Get in touch</h3>
-      <p>Open to opportunities in AI, automation, data, and accessibility. Reach out directly or send a message.</p>
+      <p>Open to full-time roles and internships in data analytics, automation, and IT support — based in Atlanta, GA (he/him) and open to Washington, D.C. and relocation. Reach out directly or send a message.</p>
       <a class="clink" href="mailto:abdirahmansheikh413@gmail.com"><span class="ic">✉</span><div><small>Email</small><strong>abdirahmansheikh413@gmail.com</strong></div></a>
       <a class="clink" href="https://www.linkedin.com/in/abdirahman-sheikh-034185296/" target="_blank" rel="noopener"><span class="ic">in</span><div><small>LinkedIn</small><strong>Connect with me ↗</strong></div></a>
+      <a class="clink" href="https://gsu.joinhandshake.com/profiles/cktnzv" target="_blank" rel="noopener"><span class="ic">⊞</span><div><small>Handshake</small><strong>View my profile ↗</strong></div></a>
       <a class="clink" href="data:application/pdf;base64,JVBERi0xLjQKJZOMi54gUmVwb3J0TGFiIEdlbmVyYXRlZCBQREYgZG9jdW1lbnQgKG9wZW5zb3VyY2UpCjEgMCBvYmoKPDwKL0YxIDIgMCBSIC9GMiAzIDAgUiAvRjMgNCAwIFIKPj4KZW5kb2JqCjIgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EgL0VuY29kaW5nIC9XaW5BbnNpRW5jb2RpbmcgL05hbWUgL0YxIC9TdWJ0eXBlIC9UeXBlMSAvVHlwZSAvRm9udAo+PgplbmRvYmoKMyAwIG9iago8PAovQmFzZUZvbnQgL0hlbHZldGljYS1Cb2xkIC9FbmNvZGluZyAvV2luQW5zaUVuY29kaW5nIC9OYW1lIC9GMiAvU3VidHlwZSAvVHlwZTEgL1R5cGUgL0ZvbnQKPj4KZW5kb2JqCjQgMCBvYmoKPDwKL0Jhc2VGb250IC9IZWx2ZXRpY2EtT2JsaXF1ZSAvRW5jb2RpbmcgL1dpbkFuc2lFbmNvZGluZyAvTmFtZSAvRjMgL1N1YnR5cGUgL1R5cGUxIC9UeXBlIC9Gb250Cj4+CmVuZG9iago1IDAgb2JqCjw8Ci9Db250ZW50cyAxMCAwIFIgL01lZGlhQm94IFsgMCAwIDYxMiA3OTIgXSAvUGFyZW50IDkgMCBSIC9SZXNvdXJjZXMgPDwKL0ZvbnQgMSAwIFIgL1Byb2NTZXQgWyAvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQyAvSW1hZ2VJIF0KPj4gL1JvdGF0ZSAwIC9UcmFucyA8PAoKPj4gCiAgL1R5cGUgL1BhZ2UKPj4KZW5kb2JqCjYgMCBvYmoKPDwKL0NvbnRlbnRzIDExIDAgUiAvTWVkaWFCb3ggWyAwIDAgNjEyIDc5MiBdIC9QYXJlbnQgOSAwIFIgL1Jlc291cmNlcyA8PAovRm9udCAxIDAgUiAvUHJvY1NldCBbIC9QREYgL1RleHQgL0ltYWdlQiAvSW1hZ2VDIC9JbWFnZUkgXQo+PiAvUm90YXRlIDAgL1RyYW5zIDw8Cgo+PiAKICAvVHlwZSAvUGFnZQo+PgplbmRvYmoKNyAwIG9iago8PAovUGFnZU1vZGUgL1VzZU5vbmUgL1BhZ2VzIDkgMCBSIC9UeXBlIC9DYXRhbG9nCj4+CmVuZG9iago4IDAgb2JqCjw8Ci9BdXRob3IgKEFiZGlyYWhtYW4gU2hlaWtoKSAvQ3JlYXRpb25EYXRlIChEOjIwMjYwNjE3MDkxMDEyKzAwJzAwJykgL0NyZWF0b3IgKFwodW5zcGVjaWZpZWRcKSkgL0tleXdvcmRzICgpIC9Nb2REYXRlIChEOjIwMjYwNjE3MDkxMDEyKzAwJzAwJykgL1Byb2R1Y2VyIChSZXBvcnRMYWIgUERGIExpYnJhcnkgLSBcKG9wZW5zb3VyY2VcKSkgCiAgL1N1YmplY3QgKFwodW5zcGVjaWZpZWRcKSkgL1RpdGxlIChBYmRpcmFobWFuIFNoZWlraCBcMjA0IFJlc3VtZSkgL1RyYXBwZWQgL0ZhbHNlCj4+CmVuZG9iago5IDAgb2JqCjw8Ci9Db3VudCAyIC9LaWRzIFsgNSAwIFIgNiAwIFIgXSAvVHlwZSAvUGFnZXMKPj4KZW5kb2JqCjEwIDAgb2JqCjw8Ci9GaWx0ZXIgWyAvQVNDSUk4NURlY29kZSAvRmxhdGVEZWNvZGUgXSAvTGVuZ3RoIDI2NjkKPj4Kc3RyZWFtCkdiISNdPyEjY08mcS9xRWVDLENNZi1wTGRmMCQvOSVsaEIzSzpTUmhGKk1EcFtiWms7ZXUyZGFjZTBEVFwlPzNGXmQ2KEY1Ni1ITGdKVzVxb3JWSC04Y2ViXyVkYFgwLVRZRFdxcWhHXjY8WW9oTHFUL2tRU19oYnJIVCk2PTgpSzhFdEl1VytgPiptVCYxSXNfakVROWo5TUdER3NPWTlwaksvQzdwJTxlPlRZS1k9P0BkNU1tXkk6PWgtPVAzTGE/OTA0czY/MXIjRE81QDIhdGBJRFJrMm1fXTlwalRyXCspXmlPRyZhXXVROGBEXz1wSU9aTj9ybC8/bDJCN0gnLyVMMCtOUyJeQmBldFpgJydMPz9QTFs5VGVjU0BqOE8va0otRXEmXENiK2BSWyUiZT0pPC1GVzxnTD1RTjRlPzZdIW1tSGZtQ0JCUGpeX0JzLmZIR0UjbU5rRTMsbWdrMDYlQVI1aDY2SGxjVyMqa1NxLChTaGJVRlRtXUZiKlMxdUdvTDVNaHUjNTkuVSluY2lNVSpnLCdcQkNrW0I+ZFZeYCJHJHFbP2s5aClzIl4oJ1lRKkc8U0EzbioiPl8qZCxEUUIqNEgrbComQT9eTG1ecWs6Ly0hXydWX1RvQGJxIzR1OTNMQE0kWChpKFVHVTozLjomamFkKTdjM0YnNVVKVVViISplIUVEVm8xQj4mVHF0RnRgRGFXamooWGleWGVmNSpydGQsYEFndEUqSEwiRXVqQ0tZKzNOX0JGaDo+MTQ+VWNnSFFGdCoiKmFSXSFGYzcoMj0xZmkoT2A0UFFaO19NZylJSDQiZGdHc2dvSDozSEFMOEt1UVVJUEMkP3FzaWspQFBWOTo7ZElHMD1BO2B0QVAhaXF1JV5DS09sLlpFaShgUzdNZ04uWVZINGhZQ2NkUmtCTDVwUypnPk5faC1iNHIzXl9KRDFmUUclWV49QEp0cj07PCRAYkdObFtnYlwpN0grJlY9WF1qW2liS2E7NSVNaylaP0RVIVoqaCJcPmosSzEzQC9UUGAxWGEiIm8nTSpycygpdV9VZjI5czhvRkQpSWFrPCQwblJEQGo7cDBwL2Q0PEVQM0ctKGRJUj1TJWpYb2JmR1VNQSNsZERnPl1hO1RtR0hvaDEuWyZxaldSNFdPTWVMVTA/dFcuaHE/PjZERVBccj8oNVtYXiEsUz5aQkJqUC0pc2BGdFJUW3Bfcm4uRiE6Q0lOa0FTJ2Q1cVZlKmQkZVksTjQ6bEBqcGxWMylaI20tb2BwWz1SYmNgUDklRCUiYlgsVUgnTEQpK1pfWGBrLTNhWWRWRGY0RVNhYTNzTVshUjVFJ101SFVCPT02LklYMU9mYDwvPWMmNFJKImR1LiNOZSsiYS81PkVqYmtIRj1uJixaN0xzI0YmZjdJN1lGVjlVQTs8XSspKW9tYFttLltKaUFXRiwmZDpaQy9EVT1sQiRgVSowb2wkVj42KWtlbkM9LFg+OWknPjlgV1VGUEVcXTs7LSxxZltlWUdPQj4yOmduQD1iRUZ0ajMzWT5aN10kZWZUOlltJUozOmpLI2huJmIqPydEL1siXlUoJi42LlhZQ108MjtLKT5ATCpMSS1oRztNXko6dEY6V2FGMUg7V1NGOTt1bk4vRTcoSlBDVCVAVjlDXU9YIyUxdUs1cXFSbEJKYGFaOyVNY1NoM1hwQCEuZz1qOSsnKSJOPDtXR01OWFxsNi0oQF1cTSgvJ0cuQEJLUEdLTTRPaVZjQiFQMWpfbm0sSTRuYktVcj5uMC8zbXA4PVB1TWUnbDE4cEU6dV5XRmQoRkA4PmFCb241SFMvSnBjOS5xYEo8QVphMiUuaC07MCFhNFdhTUVYN1dEWWRJNUwqaXAuLEMoKENkQ0cqQERdOXMxQ1g6VCdEQio9JzlrKUVAIzs1TTgrXDB1YTBpRWRXQ0pKZkhnWWJcMG5VXl1WNWFaKVFuLlRfKlxiSHM8KTc/ZFRqcCIjPDFRUyFVXT1EcipLZ0U2V0cxOiU1Z0BSVCUrbFtURkVkMDw+U1NmJD9mVj5EbGlVZDdsPDY8PzFvNj1JQlo5big2ZTssRDxuRT43aDhWODg2JE5oV1RxTik2N1s0blBePm4hU1Q8IjszYTVPIipedD5aPjpcQS4hVmBgaEVaMi5DXiUrbkQnXygkRmYqLDQ2cUlcSiU6PT0tIi5BOl1qYmVeK2YyZzNaSC1NXDMkJG1dMjlMYiJfJFpNcUZFbjpwQXMlVk04TjhOMjonOWtBOTArbkwqPzwrOk8vXihLczg0dGVtRl8xQ2UoUCxqbkFcJy5BY11wW0g9XmtQTVFaUSJCVjpTJ0slYzhPVjo2P2RmPGdrQSJYT0c0TzNmL1t0YkhfUj8jazNnQE85byU3V11QKl4kUVU4O0lcQU48ajBrV2JUYDIjXWBHT0AjW2RBRmlqTjRKXWxhQSdBa2ZVbGZwQlVca2E7YipGZ3BQIjQzZDtoaypFOmVYcCVGQXBJWzdeZ1pPOkg2WT8hTkFQPTN1VU5NV0lnWVM3ZVkyWXB1XFFcOVwmOWwmNjcoXGRHNEI0RzhWPTwzMDgmVF1hOiZlOiNlZDA5WVZPXisoLyNyN1B1cVsqbFw6YDYuOV8qZCxUTW5fIWhSZyVoWl1UUSVfQV5cWDI/RHRHVSZqPUVPSDlETW87UD5PKiYiTyNdW143Pk1pUUloZiVFLkkoWVoyamtQZlpXY08/Tj5fWiJAIzReYV84XjEkWzAjJjUoTC45U0Rib2FUVExVPDE3NlJhUD46RjZKTV1vaiteO25PR15sREtbNyIqcS48YkNSUkBvYVlsXSs8JmRYJy9MNT0mKV8kai1JWSJlIVs5SlZgZ18/a2psZz4sQicxUGdrSmNCNFVFJ2tdT0tLWHA2TT9GR08ubiphaGc/a2FWci1vPmloUCUwMkA3W24rR2pVOlI1RVJZUmxUJC1hcjosRWdVRCVoQV1ga0ZNT0ZiW1JibS5oZTopWUFBcCZVKW9sXzghOzIlNlYyLEUrN11FSkJiRTRNUUBlL1YqX148J1xvcF0pNFBBVDMzKkdASzhBX0xbMiIzXC9RLUY7R0hlITFHUVtJaidDOlsxYkFCMk1pdSUhMSxjZztQPjoiJjVjSExVK2IrdUhKUS8xQlJWUXUkdFU8bGo/UEgvTj1nWjtFSF1oLVNwKGpIPE5QXUhbVlNALEo6YG8tdVlnOCE8LVAuYTZkKXQ0Z3Q/SlFpakw8TG5NQiY4ai5pTD5MU1VGaGY8LTtWdUoyYVZvRFAqZj9mKy06R28rN29EP2ojJEw2WE9iR2RkI1JvOz5IYGhAbk4jNSQ0KU1MPXJxcDJGXG5EdFwlWE5uLlY7aiIucEI3JDxTXCovXzRFQW5iVlU5bUMxOSwuMmFjMWFlNDxGLSVsYXRPU1JgQVtPYjBpR0YxIWIsPTtRaW87YEQ1VkFoaiVtb2AqWCM4RStJXj1tUyonZi9FXDxNWmwsPDcuXjVJWm83NiZwSl86Lj9WKF48XCV0IU8oSXA1T2RxI34+ZW5kc3RyZWFtCmVuZG9iagoxMSAwIG9iago8PAovRmlsdGVyIFsgL0FTQ0lJODVEZWNvZGUgL0ZsYXRlRGVjb2RlIF0gL0xlbmd0aCA1MjEKPj4Kc3RyZWFtCkdhdG11YnRkJUonU1o6LE1SKzlQKVdHO3VbaycjMk9BR3M4Lk46OGVrPiclOU0xXjopUlFjLmpKSmtraUthaW5SYFJoZ2FUQzlnXktTU3NQVSdKc19TOitnUi5ATi1IMTEkXWNfRjUsJDdkVHFdP0EpZFVlU3U8QlU+JEpHQyU4UyUocl0nUTxUdC05O0NBT3UmQDVoSy0zWydaS2MidSw6Pyo8ZysqKDthQUghKFxmcG9bYUNpREQ5JUNhVy1pT2c9PURvbGgqPSFxWzFVQTZMPGg+UkwjOFdGQEBQcCg7XDpXYjAmVWAlQHVsaWRNQiVNVD9FaFtvYSJvVGlcNVNoI01bW3JOVSxAPF46IkRfWGhtXzJrKChZaVBfLCRERmhGWi9YY1pPN2o4LERWQnBQRj9hcidbaE1HXkJZaEMyNGE1a29QO1dxZVYnY1lLJihiIis1b0FVST9xPGwnUCJOPUFePF91My03bjAuLVcmPWdJZnBLZHFMNCUhWyw7O1NMUVVCPmIiPjE2P2VmQUVoTyUtTzVDIT5mMEFdTFRCPG5mXl9HJyxhbC1bVVpyZ0hwUEZWbDlNPlQ2NyVYKjBsJTYyMGZdP1gzJT1eMXVJUV9QX3NjU1dkT1YhVm11Xz5BPDFAKDUwLl8rLjhsVylFUV9QOlA0IWU5WzQsVyZIKWVJMSRpV34+ZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgMTIKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDYxIDAwMDAwIG4gCjAwMDAwMDAxMTIgMDAwMDAgbiAKMDAwMDAwMDIxOSAwMDAwMCBuIAowMDAwMDAwMzMxIDAwMDAwIG4gCjAwMDAwMDA0NDYgMDAwMDAgbiAKMDAwMDAwMDY0MCAwMDAwMCBuIAowMDAwMDAwODM0IDAwMDAwIG4gCjAwMDAwMDA5MDIgMDAwMDAgbiAKMDAwMDAwMTIwMiAwMDAwMCBuIAowMDAwMDAxMjY3IDAwMDAwIG4gCjAwMDAwMDQwMjggMDAwMDAgbiAKdHJhaWxlcgo8PAovSUQgCls8NGViYWVjNDUyZTlmZDgyYWNiZDFlZTcxNzAyYWQyN2U+PDRlYmFlYzQ1MmU5ZmQ4MmFjYmQxZWU3MTcwMmFkMjdlPl0KJSBSZXBvcnRMYWIgZ2VuZXJhdGVkIFBERiBkb2N1bWVudCAtLSBkaWdlc3QgKG9wZW5zb3VyY2UpCgovSW5mbyA4IDAgUgovUm9vdCA3IDAgUgovU2l6ZSAxMgo+PgpzdGFydHhyZWYKNDY0MAolJUVPRgo=" download="Abdirahman_Sheikh_Resume.pdf"><span class="ic">↓</span><div><small>Résumé</small><strong>Download PDF</strong></div></a>
     </div>
     <form action="https://formsubmit.co/abdirahmansheikh413@gmail.com" method="POST">
