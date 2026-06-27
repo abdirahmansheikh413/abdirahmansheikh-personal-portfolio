@@ -347,6 +347,17 @@
   @keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
   .page:not(#page-home)>section:first-child{padding-top:128px}
   .page>section:last-child{padding-bottom:40px}
+
+  /* ---- bolder + more readable ---- */
+  :root{--muted:#D4DDF0}
+  body{font-weight:600;color:var(--text)}
+  p,li,a,span,small,label,input,textarea,button,figcaption,.lede,.story,.story p,.cap,.lv,.l,.g,.when,.org,.by,.tag,.st span,.vchip small,.counter .l{font-weight:600}
+  .lede,.story p,.cap,.lv,.l,.g,.when,.org,.vchip small,.st span{color:#D4DDF0}
+  h1,h2,h3,h4{font-weight:700}
+  b,strong{font-weight:800;color:#FFFFFF}
+  .mono,.chap-eyebrow,.kicker{font-weight:600;letter-spacing:.08em}
+  /* keep text crisp over the animated 3D background */
+  .hero h1,.hero .role,.hero .lede,.page h2,.page h3,.story p,.lede,.exp li,.exp h3,.tli .g,.pcard p,.pcard h3,.cinfo p,.cinfo strong{text-shadow:0 1px 4px rgba(4,7,16,.62)}
 </style>
 </head>
 <body>
