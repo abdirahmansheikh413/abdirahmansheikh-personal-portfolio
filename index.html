@@ -348,16 +348,19 @@
   .page:not(#page-home)>section:first-child{padding-top:128px}
   .page>section:last-child{padding-bottom:40px}
 
-  /* ---- bolder + more readable ---- */
-  :root{--muted:#D4DDF0}
-  body{font-weight:600;color:var(--text)}
-  p,li,a,span,small,label,input,textarea,button,figcaption,.lede,.story,.story p,.cap,.lv,.l,.g,.when,.org,.by,.tag,.st span,.vchip small,.counter .l{font-weight:600}
-  .lede,.story p,.cap,.lv,.l,.g,.when,.org,.vchip small,.st span{color:#D4DDF0}
-  h1,h2,h3,h4{font-weight:700}
-  b,strong{font-weight:800;color:#FFFFFF}
-  .mono,.chap-eyebrow,.kicker{font-weight:600;letter-spacing:.08em}
-  /* keep text crisp over the animated 3D background */
-  .hero h1,.hero .role,.hero .lede,.page h2,.page h3,.story p,.lede,.exp li,.exp h3,.tli .g,.pcard p,.pcard h3,.cinfo p,.cinfo strong{text-shadow:0 1px 4px rgba(4,7,16,.62)}
+  /* ---- all text: bold, pure white, readable over 3D bg ---- */
+  :root{--text:#FFFFFF;--muted:#FFFFFF}
+  .topbar,.topbar *,.page,.page *,footer,footer *{color:#FFFFFF !important}
+  body{font-weight:600;color:#FFFFFF}
+  p,li,a,span,small,label,input,textarea,button,figcaption,.lede,.story,.story p,.cap,.lv,.l,.g,.when,.org,.by,.tag,.st span,.vchip small,.counter .l,.role,.mono,.chap-eyebrow,.kicker{font-weight:600 !important}
+  h1,h2,h3,h4,.chap-num,.n,.y,.exp h3,.pcard h3,.cinfo h3,.cinfo strong{font-weight:800 !important}
+  b,strong{font-weight:800 !important;color:#FFFFFF !important}
+  .mono,.chap-eyebrow,.kicker{letter-spacing:.08em}
+  /* keep the headline readable as solid white */
+  .grad{-webkit-text-fill-color:#FFFFFF !important;color:#FFFFFF !important;background:none !important}
+  ::placeholder{color:rgba(255,255,255,.72) !important}
+  /* lift text off the animated background */
+  h1,h2,h3,h4,p,li,a,.lede,.story p,.role,.by,.cap,.mono,.lv,.when,.org,.g,.l,.tag,.st span{text-shadow:0 1px 5px rgba(4,7,16,.7)}
 </style>
 </head>
 <body>
