@@ -225,7 +225,7 @@
 
   @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{animation:none!important;transition:none!important}
-    html{scroll-behavior:auto}.rv{opacity:1;transform:none}
+    html{scroll-behavior:auto}
     .frame img{transform:none}.orbs{display:none}
   }
 
@@ -331,7 +331,7 @@
   .btn-primary{background:linear-gradient(120deg,var(--blue),#5a48f0);border-color:transparent;color:#fff}
   .btn-primary:hover{background:linear-gradient(120deg,#7a6bff,#6354ff)}
   .grad{background:linear-gradient(100deg,var(--bright),var(--blue) 52%,var(--crimson));background-size:220% 220%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-  #scene3d{position:fixed;inset:0;z-index:-1;pointer-events:none}
+  #scene3d{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5}
   #scene3d canvas{display:block}
   .hero .frame img{object-fit:cover;object-position:center 15%}
   body::before{animation:none}
@@ -348,19 +348,21 @@
   .page:not(#page-home)>section:first-child{padding-top:128px}
   .page>section:last-child{padding-bottom:40px}
 
-  /* ---- all text: bold, pure white, readable over 3D bg ---- */
-  :root{--text:#FFFFFF;--muted:#FFFFFF}
-  .topbar,.topbar *,.page,.page *,footer,footer *{color:#FFFFFF !important}
+  /* ---- typography hierarchy: bold headings, readable body ---- */
+  :root{--text:#FFFFFF;--muted:#E6EBF7}
+  .topbar,.topbar *,.page,.page *,footer,footer *{color:#FFFFFF}
   body{font-weight:400;color:#FFFFFF}
-  p,li,a,span,small,label,input,textarea,button,figcaption,.lede,.story,.story p,.cap,.lv,.l,.g,.when,.org,.by,.tag,.st span,.vchip small,.counter .l,.role,.mono,.chap-eyebrow,.kicker{font-weight:450 !important}
-  h1,h2,h3,h4,.chap-num,.n,.y,.exp h3,.pcard h3,.cinfo h3,.cinfo strong{font-weight:800 !important}
-  b,strong{font-weight:800 !important;color:#FFFFFF !important}
-  .mono,.chap-eyebrow,.kicker{letter-spacing:.08em}
-  /* keep the headline readable as solid white */
-  .grad{-webkit-text-fill-color:#FFFFFF !important;color:#FFFFFF !important;background:none !important}
-  ::placeholder{color:rgba(255,255,255,.72) !important}
-  /* lift text off the animated background */
-  h1,h2,h3,h4,p,li,a,.lede,.story p,.role,.by,.cap,.mono,.lv,.when,.org,.g,.l,.tag,.st span{text-shadow:0 1px 5px rgba(4,7,16,.7)}
+  p,li,.lede,.story p,.exp li,.tli .g,.pcard p,.cinfo p{font-weight:400;line-height:1.72}
+  .lede{font-size:1.09rem}
+  .story p,.lede,.pcard p,.cinfo p,.exp li{max-width:70ch}
+  h1,h2,h3,h4,.chap-num,.n,.y,.exp h3,.pcard h3,.cinfo h3,.cinfo strong{font-weight:800}
+  b,strong{font-weight:700;color:#FFFFFF}
+  .mono,.chap-eyebrow,.kicker,.lv,.when,.tag,.st span{font-weight:600;letter-spacing:.08em}
+  .cap,.by,.org,.vchip small,.counter .l{font-weight:500}
+  .grad{-webkit-text-fill-color:#FFFFFF;color:#FFFFFF;background:none}
+  ::placeholder{color:rgba(255,255,255,.7)}
+  /* subtle lift off the background */
+  h1,h2,h3,p,li,.lede,.story p,.role{text-shadow:0 1px 4px rgba(4,7,16,.55)}
   .skillcloud{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
   .skillcloud span{font:600 .82rem/1 var(--mono,monospace);color:#fff;border:1px solid rgba(126,160,224,.4);background:rgba(126,160,224,.10);padding:8px 13px;border-radius:999px}
   .edu{margin-top:18px;border:1px solid var(--line);border-radius:14px;padding:20px 22px;background:linear-gradient(160deg,rgba(255,255,255,.04),transparent)}
@@ -640,6 +642,93 @@
   footer{border-top:1px solid var(--hair);margin-top:40px;padding-block:26px}
   footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;opacity:.75;font-size:.85rem}
 
+
+  /* ================= POLISH PASS: calmer motion + readable type ================= */
+  /* 1) Calm the background: keep the 3D field, drop the constant color-cycling */
+  #scene3d{animation:none !important}
+  body::before{animation:bghue 150s linear infinite !important}
+  #scene3d{opacity:.55}
+
+  /* 2) Typography: white, bold headings, comfortable body */
+  :root{--text:#FFFFFF;--muted:#E6ECF9}
+  body{color:#FFFFFF;font-weight:400}
+  h1,h2,h3,h4{color:#FFFFFF;font-weight:800;letter-spacing:-.028em}
+  p,li,.lede,.story p,.exp li,.tli .g,.pcard p,.cinfo p{color:#E6ECF9;font-weight:400;line-height:1.75}
+  .story p,.lede{max-width:66ch}
+  b,strong{color:#FFFFFF;font-weight:700}
+  .cap,.lv,.l,.when,.org,.by,.vchip small,.st span,.role,.mono,.chap-eyebrow,.kicker{font-weight:500;color:#DDE5F6}
+  .exp h3,.pcard h3,.cinfo h3,.tag,.n,.y{color:#FFFFFF;font-weight:800}
+  ::placeholder{color:rgba(255,255,255,.6)}
+  /* keep text crisp over the moving field */
+  h1,h2,h3,h4,p,li,.lede,.story p,.role,.by{text-shadow:0 1px 4px rgba(4,7,16,.55)}
+
+  /* 3) Quieter surfaces so content leads */
+  .pcard,.exp{background:rgba(12,18,36,.55);backdrop-filter:blur(6px)}
+  .topbar{background:rgba(8,11,22,.78);backdrop-filter:blur(12px)}
+
+
+  /* ================= CONTENT SURFACES — final polish ================= */
+  .chapter{border-top:none;padding:64px 0}
+  .chapter > .wrap{
+    background:linear-gradient(165deg,rgba(22,29,49,.72),rgba(12,17,32,.58));
+    border:1px solid rgba(140,170,225,.14);
+    border-radius:22px;
+    padding:46px 44px;
+    backdrop-filter:blur(14px) saturate(1.1);
+    -webkit-backdrop-filter:blur(14px) saturate(1.1);
+    box-shadow:0 28px 70px -34px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  @media(max-width:720px){.chapter > .wrap{padding:30px 20px;border-radius:16px}.chapter{padding:34px 0}}
+  /* pull-quotes stay open — they breathe better without a panel */
+  .pq > .wrap{background:none;border:none;backdrop-filter:none;box-shadow:none;padding:0}
+  /* cards: crisper edges + confident hover */
+  .pcard{background:linear-gradient(160deg,rgba(30,40,66,.85),rgba(18,25,44,.78));border-color:rgba(140,170,225,.16)}
+  .pcard:hover{transform:translateY(-5px);border-color:rgba(47,224,230,.55);box-shadow:0 26px 52px -26px rgba(0,0,0,.9),0 0 0 1px rgba(47,224,230,.18)}
+  .exp{background:linear-gradient(160deg,rgba(30,40,66,.6),rgba(18,25,44,.5));border:1px solid rgba(140,170,225,.13);padding:22px 24px}
+  /* section headings get a small accent rule */
+  .chapter h2{position:relative;padding-bottom:14px}
+  .chapter h2::after{content:"";position:absolute;left:0;bottom:0;width:58px;height:3px;border-radius:2px;
+    background:linear-gradient(90deg,var(--bright),var(--blue))}
+  /* tighten rhythm */
+  .chap-eyebrow{margin-bottom:10px}
+  .hero{align-items:center}
+
+  /* ================= MODERN SCROLL ANIMATIONS ================= */
+  .rv{opacity:0;transform:translateY(34px) scale(.985);filter:blur(6px);
+      transition:opacity .85s cubic-bezier(.22,.68,0,1),transform .85s cubic-bezier(.22,.68,0,1),filter .7s ease}
+  .rv.in{opacity:1;transform:none;filter:blur(0)}
+  .rv.d1{transition-delay:.10s} .rv.d2{transition-delay:.20s} .rv.d3{transition-delay:.30s}
+
+  /* staggered children — cards, chips, timeline, skills */
+  .stag > *{opacity:0;transform:translateY(26px);filter:blur(5px);
+    transition:opacity .7s cubic-bezier(.22,.68,0,1),transform .7s cubic-bezier(.22,.68,0,1),filter .6s ease}
+  .stag.in > *{opacity:1;transform:none;filter:blur(0)}
+  .stag.in > *:nth-child(1){transition-delay:.04s}
+  .stag.in > *:nth-child(2){transition-delay:.12s}
+  .stag.in > *:nth-child(3){transition-delay:.20s}
+  .stag.in > *:nth-child(4){transition-delay:.28s}
+  .stag.in > *:nth-child(5){transition-delay:.36s}
+  .stag.in > *:nth-child(6){transition-delay:.44s}
+
+  /* headings: accent rule draws itself in */
+  .chapter h2::after{transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.22,.68,0,1) .15s}
+  .rv.in .chapter h2::after,.chapter h2.in::after{transform:scaleX(1)}
+
+  /* big chapter numerals drift as you scroll */
+  .chap-num{will-change:transform}
+
+  /* section panels rise slightly into place */
+  .chapter > .wrap{opacity:0;transform:translateY(30px);
+    transition:opacity .9s cubic-bezier(.22,.68,0,1),transform .9s cubic-bezier(.22,.68,0,1)}
+  .chapter > .wrap.in{opacity:1;transform:none}
+
+  @media(prefers-reduced-motion:reduce){
+    .rv,.stag > *,.chapter > .wrap{opacity:1 !important;transform:none !important;filter:none !important;transition:none !important}
+    .chapter h2::after{transform:scaleX(1) !important}
+  }
+
+  html{scroll-behavior:smooth}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
@@ -723,13 +812,13 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
     <div class="mono chap-eyebrow">What I stand on</div>
     <h2>My faith is the foundation under all of it.</h2>
     <div class="story"><p>It's where my work ethic comes from, and the standard I hold myself to: do <b>honest work</b>, help people <b>genuinely</b>, and build things that matter beyond myself.</p></div>
-    <div class="values">
+    <div class="values stag">
       <div class="vchip"><span class="ic">✦</span><div><strong>Faith</strong><small>Purpose and integrity in the work</small></div></div>
       <div class="vchip"><span class="ic">♥</span><div><strong>Service</strong><small>Technology that helps people</small></div></div>
       <div class="vchip"><span class="ic">◆</span><div><strong>Discipline</strong><small>Consistency over intensity</small></div></div>
       <div class="vchip"><span class="ic">↗</span><div><strong>Learning</strong><small>Always building, always improving</small></div></div>
     </div>
-    <div class="counters" id="counters">
+    <div class="counters stag" id="counters">
       <div class="counter"><div class="n" data-target="2027" data-plain="1">2027</div><div class="l">Graduating, Georgia State</div></div>
       <div class="counter"><div class="n c" data-target="5">0</div><div class="l">Projects shipped</div></div>
       <div class="counter"><div class="n" data-target="11">0</div><div class="l">Tools &amp; technologies</div></div>
@@ -741,7 +830,7 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
     <div class="chap-num serif" data-par="38">06</div>
     <div class="mono chap-eyebrow">The road ahead</div>
     <h2>The chapters still unwritten.</h2>
-    <div class="tl">
+    <div class="tl stag">
       <div class="tli"><span class="nd"></span><div class="y">2026</div><div class="g">Build impactful projects across AI, automation, and accessibility.</div></div>
       <div class="tli"><span class="nd"></span><div class="y">2027</div><div class="g">Graduate from Georgia State — B.B.A., Computer Information Systems.</div></div>
       <div class="tli"><span class="nd"></span><div class="y">2028</div><div class="g">Gain deep experience in AI, analytics, and automation in industry.</div></div>
@@ -752,7 +841,7 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
 <div class="page" id="page-work" data-page="work"><section class="chapter" id="craft"><div class="wrap">
   <div class="rv"><div class="chap-num serif" data-par="38">03</div><div class="mono chap-eyebrow">The craft</div><h2>The tools I build with.</h2>
   <p class="story">CIS student (Digital Innovation) at Georgia State University. I build practical technical solutions — automation pipelines, REST API integrations, AI-powered tools, and analytics dashboards — with hands-on experience across enterprise SaaS platforms, secure data migration, and IT systems.</p></div>
-  <div class="skills rv d1" id="skills">
+  <div class="skills stag rv d1" id="skills">
     <div class="sg"><h3>Technical</h3>
       <div class="skill"><div class="t"><span>AI Automation</span><span class="lv">Strong</span></div><div class="bar"><i data-w="88"></i></div></div>
       <div class="skill"><div class="t"><span>Python</span><span class="lv">Intermediate</span></div><div class="bar"><i data-w="78"></i></div></div>
@@ -822,14 +911,14 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
 <div class="page" id="page-projects" data-page="projects"><section class="chapter" id="projects"><div class="wrap">
   <div class="rv"><div class="chap-num serif" data-par="38">04</div><div class="mono chap-eyebrow">The work</div><h2>Chapters I've already shipped.</h2>
   <p class="story">Filter by focus area to see how I apply automation, AI, and analytics to meaningful problems.</p></div>
-  <div class="filters rv d1" id="filters">
+  <div class="filters stag rv d1" id="filters">
     <button class="filter active" data-f="all">All</button>
     <button class="filter" data-f="ai">AI &amp; Automation</button>
     <button class="filter" data-f="data">Data &amp; BI</button>
     <button class="filter" data-f="web">Web</button>
     <button class="filter" data-f="ops">IT &amp; Process</button>
   </div>
-  <div class="pgrid rv d2" id="pgrid">
+  <div class="pgrid stag rv d2" id="pgrid">
     <article class="pcard" data-cat="ai"><div class="tag">Lead Developer · Full-Stack</div><h3>LinkedIn Outreach Engine — Internal SaaS Replacement</h3><p>Lead developer on an internal outreach-automation platform built to replace a paid third-party vendor and eliminate its per-seat subscription cost. Built the authentication, database schema, API routes, dashboard, and campaign/lead-import workflows — shipping Phase 1 end to end through iterative QA cycles with a dedicated tester.</p><div class="st"><span>Next.js 14</span><span>TypeScript</span><span>Supabase</span><span>Clerk Auth</span><span>Tailwind</span></div></article>
     <article class="pcard" data-cat="ai"><div class="tag">Developer · AI</div><h3>AI Recipe Tool — Meal Suggestions via OpenAI API</h3><p>A Python tool that turns the ingredients you have on hand into recipe suggestions using the OpenAI API, with dietary filters for different needs.</p><div class="st"><span>Python</span><span>OpenAI API</span><span>HTML/CSS</span></div></article>
     <article class="pcard" data-cat="ai"><div class="tag">Developer · Automation</div><h3>n8n Telegram Bot Workflow — AI Assistant</h3><p>An AI assistant built as an n8n workflow connected to Telegram — handling messages and automating multi-step tasks through connected APIs.</p><div class="st"><span>n8n</span><span>Telegram</span><span>APIs</span></div></article>
@@ -871,7 +960,28 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
   var progress=document.getElementById('progress');
   if(progress){addEventListener('scroll',function(){var h=document.documentElement;progress.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';},{passive:true});}
 
-  function revealIn(scope){ (scope||document).querySelectorAll('.rv').forEach(function(el){el.classList.add('in');}); }
+  var __io=null;
+  function __ensureObserver(){
+    if(__io) return __io;
+    __io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); __io.unobserve(e.target);
+          if(e.target.id==='skills') runSkills(e.target.closest('.page')||document);
+          if(e.target.id==='counters') runCounters(e.target.closest('.page')||document);
+        }
+      });
+    },{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+    return __io;
+  }
+  function revealIn(scope){
+    var root=scope||document, io=__ensureObserver();
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+      root.querySelectorAll('.rv,.stag,.chapter > .wrap,h2').forEach(function(el){el.classList.add('in');});
+      runSkills(root); runCounters(root); return;
+    }
+    root.querySelectorAll('.rv,.stag,.chapter > .wrap,.chapter h2,#skills,#counters').forEach(function(el){
+      el.classList.remove('in'); io.observe(el);
+    }); }
   function runSkills(scope){ var s=scope.querySelector('#skills'); if(!s)return; s.querySelectorAll('.bar i').forEach(function(i){i.style.width=i.dataset.w+'%';}); }
   function runCounters(scope){ var c=scope.querySelector('#counters'); if(!c)return;
     c.querySelectorAll('.n').forEach(function(n){ if(n.dataset.done)return; n.dataset.done=1;
@@ -938,7 +1048,7 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
     renderer.setSize(innerWidth, innerHeight);
     host.appendChild(renderer.domElement);
 
-    var GX=160, GZ=104, GAP=1.9, count=GX*GZ;
+    var GX=120, GZ=76, GAP=1.9, count=GX*GZ;
     var geo=new THREE.BufferGeometry();
     var pos=new Float32Array(count*3), col=new Float32Array(count*3);
     var cA=new THREE.Color(0x2FE0E6), cB=new THREE.Color(0x6D5CFF), cC=new THREE.Color(0xFF5C9D), tmp=new THREE.Color();
@@ -969,7 +1079,7 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
         kk++;
       }}
       geo.attributes.position.needsUpdate=true;
-      pts.rotation.y = mx*0.28 + t*0.012;
+      pts.rotation.y = mx*0.22 + t*0.006;
       camera.position.x += (mx*16 - camera.position.x)*0.05;
       camera.position.y += ((30 - my*10) - camera.position.y)*0.05;
       camera.lookAt(0,0,-8);
@@ -990,6 +1100,32 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
 if(!matchMedia('(hover: hover)').matches)return;
 addEventListener('pointermove',function(e){g.style.opacity='1';g.style.left=e.clientX+'px';g.style.top=e.clientY+'px';},{passive:true});
 addEventListener('pointerleave',function(){g.style.opacity='0';});})();
+
+  /* scroll-linked drift on big chapter numerals */
+  (function(){
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var ticking=false;
+    function drift(){
+      var vh=innerHeight;
+      document.querySelectorAll('.page.active .chap-num').forEach(function(n){
+        var r=n.getBoundingClientRect();
+        if(r.bottom<-100||r.top>vh+100) return;
+        var p=((r.top+r.height/2)-vh/2)/vh;
+        n.style.transform='translateY('+(-p*26).toFixed(1)+'px)';
+      });
+      ticking=false;
+    }
+    addEventListener('scroll',function(){if(!ticking){requestAnimationFrame(drift);ticking=true;}},{passive:true});
+    drift();
+  })();
+
+  /* safety net: if anything is still hidden after load, show it */
+  setTimeout(function(){
+    document.querySelectorAll('.page.active .rv,.page.active .stag,.page.active .chapter > .wrap').forEach(function(el){
+      var r=el.getBoundingClientRect();
+      if(r.top < innerHeight && !el.classList.contains('in')) el.classList.add('in');
+    });
+  },900);
 </script>
 </body>
 </html>
