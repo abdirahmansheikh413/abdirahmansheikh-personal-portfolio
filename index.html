@@ -1070,6 +1070,70 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
 
 /* filter hiding must beat .pgrid .pcard{display:flex} */
 #pgrid .pcard.hide{display:none!important}
+
+/* ================= MODERNIZATION PASS ================= */
+/* 1. softer geometry — sharp 4px reads dated; 10-12px reads current */
+.chapter>.wrap{border-radius:14px}
+.pcard,.flagship,.pipe,.vchip,.clink,.frame,.fs-col,.exp{border-radius:10px}
+.btn,.filters .filter,.topnav a,.st span,.pstatus,.fs-flow span{border-radius:8px}
+.logo .m{border-radius:7px}
+
+/* 2. layered surfaces — depth via stacked tints, not heavy shadow */
+:root{--elev1:rgba(255,255,255,.028);--elev2:rgba(255,255,255,.05)}
+.chapter>.wrap{background:
+  linear-gradient(180deg,var(--elev1),transparent 42%),
+  linear-gradient(180deg,rgba(19,28,39,.88),rgba(15,22,32,.72));
+  border-color:rgba(140,170,225,.13)}
+.pcard{background:linear-gradient(180deg,var(--elev1),transparent 55%),var(--panel);
+  border-color:rgba(140,170,225,.12)}
+
+/* 3. type: tighter optical sizing, more generous leading */
+h1{letter-spacing:-.036em;line-height:1.04}
+h2{letter-spacing:-.028em}
+p,li{line-height:1.72}
+.lede{font-size:1.08rem;line-height:1.66}
+
+/* 4. breathing room */
+.chapter{padding:74px 0}
+.chapter>.wrap{padding:58px 52px}
+@media(max-width:720px){.chapter{padding:40px 0}.chapter>.wrap{padding:32px 22px}}
+.pcard{padding:28px 26px}
+.pgrid{gap:20px}
+
+/* 5. micro-interactions — motion that signals state, not decoration */
+.pcard{transition:transform .28s cubic-bezier(.22,.68,0,1),border-color .28s,background .28s}
+.pcard:hover{transform:translateY(-3px);border-color:rgba(79,209,165,.42)}
+.clink{transition:transform .22s,border-color .22s}
+.clink:hover{transform:translateX(3px)}
+.btn{transition:transform .2s,background .2s,border-color .2s}
+.btn:hover{transform:translateY(-2px)}
+.filters .filter{transition:background .2s,border-color .2s,color .2s}
+
+/* animated nav indicator */
+.topnav a{position:relative}
+.topnav a::after{content:"";position:absolute;left:11px;right:11px;bottom:5px;height:1.5px;
+  background:var(--signal);border-radius:2px;transform:scaleX(0);transform-origin:left;
+  transition:transform .28s cubic-bezier(.22,.68,0,1)}
+.topnav a:hover::after,.topnav a.active::after{transform:scaleX(1)}
+
+/* 6. hairlines: lower contrast, more refined */
+.topbar{border-bottom-color:rgba(140,170,225,.10)}
+.exp{border-top-color:rgba(140,170,225,.11)}
+.st span{border-color:rgba(140,170,225,.20)}
+
+/* 7. subtle grain — removes the flat digital feel */
+.grain-tex{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+.topbar,.page,footer{position:relative;z-index:1}
+
+/* 8. focus ring refinement */
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--signal);outline-offset:3px;border-radius:8px}
+
+@media(prefers-reduced-motion:reduce){
+  .pcard:hover,.btn:hover,.clink:hover{transform:none}
+  .topnav a::after{transition:none}
+}
 </style>
 </head>
 <body>
@@ -1097,6 +1161,7 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
 </script>
 <div class="progress" id="progress"></div>
 <div class="console-bg" aria-hidden="true"></div>
+<div class="grain-tex" aria-hidden="true"></div>
 <div class="mesh"></div>
 <div id="scene3d" aria-hidden="true"></div>
 
