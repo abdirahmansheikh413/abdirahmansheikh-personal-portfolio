@@ -1143,6 +1143,28 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   linear-gradient(90deg,rgba(79,209,165,.028) 1px,transparent 1px) 0 0/104px 104px,
   radial-gradient(130% 80% at 50% -20%,rgba(46,141,112,.10),transparent 58%),
   var(--ink)}
+
+/* ---- "in progress" panel: honest status, not a highlight reel ---- */
+.nowbar{border:1px solid var(--rule);border-radius:12px;
+  background:linear-gradient(180deg,rgba(255,255,255,.028),transparent 45%),rgba(19,28,39,.62);
+  padding:26px 28px;margin-top:8px}
+@media(max-width:720px){.nowbar{padding:20px 18px}}
+.nowbar .hd{display:flex;align-items:center;gap:9px;margin-bottom:16px;
+  font-family:var(--mono);font-size:.74rem;color:var(--fg-faint)}
+.nowbar .hd::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--amber)}
+.nowgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:760px){.nowgrid{grid-template-columns:1fr;gap:16px}}
+.nowgrid .it{border-left:2px solid var(--rule);padding-left:14px}
+.nowgrid .it b{display:block;font-family:var(--mono);font-size:.72rem;color:var(--signal);
+  font-weight:600;margin-bottom:6px}
+.nowgrid .it span{font-size:.92rem;color:var(--fg-dim);line-height:1.6}
+
+/* pull-quote: left-aligned so the accent rule reads as a leader line */
+section.pq{text-align:left !important}
+section.pq .wrap p{text-align:left !important;margin:0 !important;font-style:normal !important;
+  font-family:var(--sans) !important;font-size:clamp(1.15rem,2.1vw,1.55rem) !important;
+  line-height:1.5 !important;max-width:58ch;letter-spacing:-.015em}
+section.pq .wrap .by{text-align:left !important;text-transform:none !important;letter-spacing:.02em}
 </style>
 </head>
 <body>
@@ -1194,7 +1216,7 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
         <p class="mono kicker">Atlanta, Georgia</p>
         <h1>I connect the systems<br/>a business already runs on.</h1>
         <p class="role"><b>AI, automation and systems integration.</b> Computer Information Systems at Georgia State, concentrating in Digital Innovation &amp; Business Transformation.</p>
-        <p class="lede">Most work inside a company is manual because its systems don't talk to each other. I build the pipelines, integrations and AI tools that close that gap.</p>
+        <p class="lede">Most work inside a company is manual because its systems don't talk to each other — and because software rarely bends to the person using it. I build the pipelines, integrations and AI tools that close both gaps.</p>
         <div class="hero-cta">
           <a href="#projects" class="btn btn-primary">See the work</a>
           <a href="#contact" class="btn btn-ghost">Get in touch</a>
@@ -1223,9 +1245,24 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
   </main></div>
 </header>
 <div class="pulseline" aria-hidden="true"></div>
+<section class="chapter" id="now"><div class="wrap">
+  <div class="rv">
+    <p class="mono chap-eyebrow">Where I actually am</p>
+    <h2>Still building.</h2>
+    <p>I'm a senior, not a finished product. I'd rather show what's in progress than pretend the work is done — so here's the honest state of things.</p>
+  </div>
+  <div class="nowbar rv d1">
+    <div class="hd">current focus</div>
+    <div class="nowgrid">
+      <div class="it"><b>Building</b><span>An AI learning system that reads a syllabus, models workload, and tells a student what to do next.</span></div>
+      <div class="it"><b>Learning</b><span>Agentic AI, tool calling, persistent context, and how enterprise systems actually fit together.</span></div>
+      <div class="it"><b>Looking for</b><span>Work where I can build with AI and automation inside a real business — graduating Summer 2027.</span></div>
+    </div>
+  </div>
+</div></section>
 <section class="pq"><div class="wrap rv">
-  <p class="serif">"Every system I build starts with one question — how does this actually help a person?"</p>
-  <div class="by">— The thread through everything</div>
+  <p class="serif">"I spent an earlier part of my life learning how to adapt to systems that weren't built for me. Now I build systems that adapt to people."</p>
+  <div class="by">— The thread through everything I build</div>
 </div></section><div class="ticker" aria-hidden="true"><div class="tk">
 <span>PYTHON</span><span>SQL</span><span>REST APIs</span><span>n8n AUTOMATION</span><span>SALESFORCE</span><span>HUBSPOT</span><span>POWER BI</span><span>TABLEAU</span><span>OPENAI API</span><span>JAVASCRIPT</span><span>MYSQL</span><span>GIT</span>
 <span>PYTHON</span><span>SQL</span><span>REST APIs</span><span>n8n AUTOMATION</span><span>SALESFORCE</span><span>HUBSPOT</span><span>POWER BI</span><span>TABLEAU</span><span>OPENAI API</span><span>JAVASCRIPT</span><span>MYSQL</span><span>GIT</span>
