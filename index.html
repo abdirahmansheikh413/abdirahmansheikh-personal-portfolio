@@ -1134,6 +1134,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
   .pcard:hover,.btn:hover,.clink:hover{transform:none}
   .topnav a::after{transition:none}
 }
+
+/* ============ NETWORK TOPOLOGY BACKGROUND ============ */
+#netbg{position:fixed;inset:0;z-index:0;pointer-events:none;display:block}
+/* keep the fine grid, drop its heavy horizon glow so the net reads clearly */
+.console-bg{background:
+  linear-gradient(rgba(79,209,165,.028) 1px,transparent 1px) 0 0/104px 104px,
+  linear-gradient(90deg,rgba(79,209,165,.028) 1px,transparent 1px) 0 0/104px 104px,
+  radial-gradient(130% 80% at 50% -20%,rgba(46,141,112,.10),transparent 58%),
+  var(--ink)}
 </style>
 </head>
 <body>
@@ -1161,6 +1170,7 @@ window.addEventListener('wheel',end,{once:true,passive:true});window.addEventLis
 </script>
 <div class="progress" id="progress"></div>
 <div class="console-bg" aria-hidden="true"></div>
+<canvas id="netbg" aria-hidden="true"></canvas>
 <div class="grain-tex" aria-hidden="true"></div>
 <div class="mesh"></div>
 <div id="scene3d" aria-hidden="true"></div>
@@ -1582,5 +1592,121 @@ addEventListener('pointerleave',function(){g.style.opacity='0';});})();
     });
   },900);
 </script>
+
+<script>
+/* Network topology field — nodes, links, and data packets.
+   Mirrors the site's premise: systems connected by moving data. */
+(function(){
+  var c=document.getElementById('netbg'); if(!c||!c.getContext) return;
+  var ctx=c.getContext('2d');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W,H,DPR,nodes=[],links=[],packets=[],mx=-9999,my=-9999;
+
+  var SIGNAL=[79,209,165], LINK=[110,150,190];
+
+  function size(){
+    DPR=Math.min(devicePixelRatio||1,2);
+    W=c.width=Math.floor(innerWidth*DPR); H=c.height=Math.floor(innerHeight*DPR);
+    c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px';
+    build();
+  }
+
+  function build(){
+    nodes=[]; links=[]; packets=[];
+    // loose grid with jitter — structured like a topology, not random noise
+    var cell=Math.max(150*DPR, Math.min(W,H)/7);
+    var cols=Math.ceil(W/cell)+1, rows=Math.ceil(H/cell)+1;
+    for(var i=0;i<cols;i++){
+      for(var j=0;j<rows;j++){
+        if(Math.random()<0.22) continue;               // gaps keep it organic
+        nodes.push({
+          x:i*cell+(Math.random()-0.5)*cell*0.62,
+          y:j*cell+(Math.random()-0.5)*cell*0.62,
+          r:(Math.random()<0.14?3.1:1.9)*DPR,          // a few hubs
+          hub:Math.random()<0.14,
+          ph:Math.random()*Math.PI*2,
+          sp:0.25+Math.random()*0.4
+        });
+      }
+    }
+    var maxd=cell*1.28;
+    for(var a=0;a<nodes.length;a++){
+      for(var b=a+1;b<nodes.length;b++){
+        var dx=nodes[a].x-nodes[b].x, dy=nodes[a].y-nodes[b].y;
+        var d=Math.sqrt(dx*dx+dy*dy);
+        if(d<maxd) links.push({a:a,b:b,d:d});
+      }
+    }
+    // seed a few travelling packets on random links
+    var n=Math.min(9,Math.max(4,Math.round(links.length/26)));
+    for(var k=0;k<n;k++) packets.push(newPacket());
+  }
+
+  function newPacket(){
+    return {l:Math.floor(Math.random()*links.length), t:Math.random(),
+            sp:0.0016+Math.random()*0.0026, dir:Math.random()<0.5?1:-1};
+  }
+
+  function draw(time){
+    ctx.clearRect(0,0,W,H);
+    var t=time*0.001;
+
+    // links
+    for(var i=0;i<links.length;i++){
+      var L=links[i], A=nodes[L.a], B=nodes[L.b];
+      var ax=A.x+Math.sin(t*A.sp+A.ph)*5*DPR, ay=A.y+Math.cos(t*A.sp+A.ph)*5*DPR;
+      var bx=B.x+Math.sin(t*B.sp+B.ph)*5*DPR, by=B.y+Math.cos(t*B.sp+B.ph)*5*DPR;
+      L._ax=ax; L._ay=ay; L._bx=bx; L._by=by;
+      var fade=1-(L.d/(Math.max(W,H)));
+      ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by);
+      ctx.strokeStyle='rgba('+LINK[0]+','+LINK[1]+','+LINK[2]+','+(0.16*fade).toFixed(3)+')';
+      ctx.lineWidth=1*DPR; ctx.stroke();
+    }
+
+    // nodes
+    for(var j=0;j<nodes.length;j++){
+      var N=nodes[j];
+      var nx=N.x+Math.sin(t*N.sp+N.ph)*5*DPR, ny=N.y+Math.cos(t*N.sp+N.ph)*5*DPR;
+      var dxm=nx-mx, dym=ny-my;
+      var near=Math.exp(-(dxm*dxm+dym*dym)/(2*(140*DPR)*(140*DPR)));
+      var al=(N.hub?0.62:0.34)+near*0.45;
+      ctx.beginPath(); ctx.arc(nx,ny,N.r+near*1.4*DPR,0,Math.PI*2);
+      ctx.fillStyle='rgba('+SIGNAL[0]+','+SIGNAL[1]+','+SIGNAL[2]+','+al.toFixed(3)+')';
+      ctx.fill();
+      if(N.hub){ // faint ring on hubs
+        ctx.beginPath(); ctx.arc(nx,ny,N.r+3.2*DPR,0,Math.PI*2);
+        ctx.strokeStyle='rgba('+SIGNAL[0]+','+SIGNAL[1]+','+SIGNAL[2]+',0.26)';
+        ctx.lineWidth=1*DPR; ctx.stroke();
+      }
+    }
+
+    // packets travelling the links
+    if(!reduce){
+      for(var p=0;p<packets.length;p++){
+        var P=packets[p], L2=links[P.l];
+        if(!L2){ packets[p]=newPacket(); continue; }
+        P.t+=P.sp*P.dir;
+        if(P.t>1||P.t<0){ packets[p]=newPacket(); continue; }
+        var px=L2._ax+(L2._bx-L2._ax)*P.t, py=L2._ay+(L2._by-L2._ay)*P.t;
+        var g=ctx.createRadialGradient(px,py,0,px,py,7*DPR);
+        g.addColorStop(0,'rgba('+SIGNAL[0]+','+SIGNAL[1]+','+SIGNAL[2]+',0.5)');
+        g.addColorStop(1,'rgba('+SIGNAL[0]+','+SIGNAL[1]+','+SIGNAL[2]+',0)');
+        ctx.beginPath(); ctx.arc(px,py,7*DPR,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+        ctx.beginPath(); ctx.arc(px,py,1.5*DPR,0,Math.PI*2);
+        ctx.fillStyle='rgba('+SIGNAL[0]+','+SIGNAL[1]+','+SIGNAL[2]+',0.85)'; ctx.fill();
+      }
+    }
+  }
+
+  size();
+  addEventListener('resize',function(){clearTimeout(window.__nbT);window.__nbT=setTimeout(size,180)});
+  addEventListener('pointermove',function(e){mx=e.clientX*DPR;my=e.clientY*DPR;},{passive:true});
+  addEventListener('pointerleave',function(){mx=-9999;my=-9999;});
+
+  if(reduce){ draw(0); return; }
+  (function loop(ts){ draw(ts||0); requestAnimationFrame(loop); })(0);
+})();
+</script>
+
 </body>
 </html>
