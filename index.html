@@ -1631,15 +1631,28 @@ addEventListener('pointerleave',function(){g.style.opacity='0';});})();
 </script>
 
 <script>
-/* Network topology field — nodes, links, and data packets.
-   Mirrors the site's premise: systems connected by moving data. */
+/* ============================================================
+   STACK MAP — the background is Abdirahman's own integration map.
+   Named nodes are the systems he actually builds with; packets are
+   data moving between them. The pulse cadence follows an EEG rhythm,
+   a quiet nod to the chapter that started all of this.
+   ============================================================ */
 (function(){
   var c=document.getElementById('netbg'); if(!c||!c.getContext) return;
   var ctx=c.getContext('2d');
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var W,H,DPR,nodes=[],links=[],packets=[],mx=-9999,my=-9999;
+  var SIGNAL=[79,209,165], LINK=[110,150,190], AMBER=[245,178,82];
 
-  var SIGNAL=[79,209,165], LINK=[110,150,190];
+  /* his actual stack — grouped so the map reads like a real architecture */
+  var STACK=[
+    {t:'Salesforce', g:0},{t:'HubSpot', g:0},{t:'Apollo', g:0},{t:'Clay', g:0},
+    {t:'n8n', g:1},{t:'REST API', g:1},{t:'Webhooks', g:1},{t:'Automation', g:1},
+    {t:'Python', g:2},{t:'SQL', g:2},{t:'Supabase', g:2},{t:'PostgreSQL', g:2},
+    {t:'OpenAI', g:3},{t:'Anthropic', g:3},{t:'LLM Agent', g:3},{t:'RAG', g:3},
+    {t:'Power BI', g:4},{t:'Tableau', g:4},{t:'Next.js', g:4},{t:'TypeScript', g:4}
+  ];
+
+  var W,H,DPR,nodes=[],links=[],packets=[],mx=-9999,my=-9999;
 
   function size(){
     DPR=Math.min(devicePixelRatio||1,2);
@@ -1650,93 +1663,152 @@ addEventListener('pointerleave',function(){g.style.opacity='0';});})();
 
   function build(){
     nodes=[]; links=[]; packets=[];
-    // loose grid with jitter — structured like a topology, not random noise
-    var cell=Math.max(150*DPR, Math.min(W,H)/7);
-    var cols=Math.ceil(W/cell)+1, rows=Math.ceil(H/cell)+1;
-    for(var i=0;i<cols;i++){
-      for(var j=0;j<rows;j++){
-        if(Math.random()<0.22) continue;               // gaps keep it organic
-        nodes.push({
-          x:i*cell+(Math.random()-0.5)*cell*0.62,
-          y:j*cell+(Math.random()-0.5)*cell*0.62,
-          r:(Math.random()<0.14?3.1:1.9)*DPR,          // a few hubs
-          hub:Math.random()<0.14,
-          ph:Math.random()*Math.PI*2,
-          sp:0.25+Math.random()*0.4
-        });
-      }
+    var small=innerWidth<760;
+    var labelled=small?9:STACK.length;          // fewer labels on phones
+    var cell=Math.max(160*DPR, Math.min(W,H)/6.2);
+    var cols=Math.max(3,Math.ceil(W/cell)+1), rows=Math.max(3,Math.ceil(H/cell)+1);
+
+    var slots=[];
+    for(var i=0;i<cols;i++) for(var j=0;j<rows;j++) slots.push([i,j]);
+    // shuffle so labels don't land in a predictable row
+    for(var s=slots.length-1;s>0;s--){var k=Math.floor(Math.random()*(s+1));var tmp=slots[s];slots[s]=slots[k];slots[k]=tmp;}
+
+    for(var n=0;n<slots.length;n++){
+      if(Math.random()<0.16) continue;
+      var gi=slots[n][0], gj=slots[n][1];
+      var named=nodes.filter(function(o){return o.t;}).length<labelled && Math.random()<0.55;
+      var item=named?STACK[nodes.filter(function(o){return o.t;}).length%STACK.length]:null;
+      nodes.push({
+        x:gi*cell+(Math.random()-0.5)*cell*0.55,
+        y:gj*cell+(Math.random()-0.5)*cell*0.55,
+        t:item?item.t:null, g:item?item.g:-1,
+        r:(item?3.0:1.7)*DPR,
+        ph:Math.random()*Math.PI*2, sp:0.22+Math.random()*0.35
+      });
     }
-    var maxd=cell*1.28;
+
+    var maxd=cell*1.25;
     for(var a=0;a<nodes.length;a++){
       for(var b=a+1;b<nodes.length;b++){
         var dx=nodes[a].x-nodes[b].x, dy=nodes[a].y-nodes[b].y;
         var d=Math.sqrt(dx*dx+dy*dy);
-        if(d<maxd) links.push({a:a,b:b,d:d});
+        if(d<maxd){
+          // links between same-group systems read slightly stronger
+          var same=nodes[a].g>=0 && nodes[a].g===nodes[b].g;
+          links.push({a:a,b:b,d:d,same:same});
+        }
       }
     }
-    // seed a few travelling packets on random links
-    var n=Math.min(9,Math.max(4,Math.round(links.length/26)));
-    for(var k=0;k<n;k++) packets.push(newPacket());
+    var np=Math.min(10,Math.max(4,Math.round(links.length/24)));
+    for(var q=0;q<np;q++) packets.push(newPacket());
   }
 
   function newPacket(){
     return {l:Math.floor(Math.random()*links.length), t:Math.random(),
-            sp:0.0016+Math.random()*0.0026, dir:Math.random()<0.5?1:-1};
+            sp:0.0015+Math.random()*0.0024, dir:Math.random()<0.5?1:-1};
+  }
+
+  /* EEG-style cadence: long quiet interval, then a spike */
+  function beat(t){
+    var p=(t%3.4)/3.4;
+    return Math.exp(-Math.pow((p-0.5)/0.035,2));
   }
 
   function draw(time){
     ctx.clearRect(0,0,W,H);
-    var t=time*0.001;
+    var t=time*0.001, pulse=beat(t);
 
-    // links
     for(var i=0;i<links.length;i++){
       var L=links[i], A=nodes[L.a], B=nodes[L.b];
-      var ax=A.x+Math.sin(t*A.sp+A.ph)*5*DPR, ay=A.y+Math.cos(t*A.sp+A.ph)*5*DPR;
-      var bx=B.x+Math.sin(t*B.sp+B.ph)*5*DPR, by=B.y+Math.cos(t*B.sp+B.ph)*5*DPR;
-      L._ax=ax; L._ay=ay; L._bx=bx; L._by=by;
-      var fade=1-(L.d/(Math.max(W,H)));
+      var ax=A.x+Math.sin(t*A.sp+A.ph)*4.5*DPR, ay=A.y+Math.cos(t*A.sp+A.ph)*4.5*DPR;
+      var bx=B.x+Math.sin(t*B.sp+B.ph)*4.5*DPR, by=B.y+Math.cos(t*B.sp+B.ph)*4.5*DPR;
+      L._ax=ax;L._ay=ay;L._bx=bx;L._by=by;
+      var al=((L.same?0.22:0.13)+pulse*0.10)*vis((ax+bx)/2,(ay+by)/2);
       ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by);
-      ctx.strokeStyle='rgba('+LINK[0]+','+LINK[1]+','+LINK[2]+','+(0.16*fade).toFixed(3)+')';
+      ctx.strokeStyle='rgba('+LINK[0]+','+LINK[1]+','+LINK[2]+','+al.toFixed(3)+')';
       ctx.lineWidth=1*DPR; ctx.stroke();
     }
 
-    // nodes
+    ctx.font=(10*DPR)+'px "IBM Plex Mono", ui-monospace, monospace';
+    ctx.textAlign='center';
+
     for(var j=0;j<nodes.length;j++){
       var N=nodes[j];
-      var nx=N.x+Math.sin(t*N.sp+N.ph)*5*DPR, ny=N.y+Math.cos(t*N.sp+N.ph)*5*DPR;
+      var nx=N.x+Math.sin(t*N.sp+N.ph)*4.5*DPR, ny=N.y+Math.cos(t*N.sp+N.ph)*4.5*DPR;
       var dxm=nx-mx, dym=ny-my;
-      var near=Math.exp(-(dxm*dxm+dym*dym)/(2*(140*DPR)*(140*DPR)));
-      var al=(N.hub?0.62:0.34)+near*0.45;
-      ctx.beginPath(); ctx.arc(nx,ny,N.r+near*1.4*DPR,0,Math.PI*2);
-      ctx.fillStyle='rgba('+SIGNAL[0]+','+SIGNAL[1]+','+SIGNAL[2]+','+al.toFixed(3)+')';
+      var near=Math.exp(-(dxm*dxm+dym*dym)/(2*(150*DPR)*(150*DPR)));
+      var col=N.t?SIGNAL:LINK;
+      var vz=vis(nx,ny);
+      var al=((N.t?0.52:0.22)+near*0.42+pulse*0.12)*vz;
+      ctx.beginPath(); ctx.arc(nx,ny,N.r+near*1.5*DPR,0,Math.PI*2);
+      ctx.fillStyle='rgba('+col[0]+','+col[1]+','+col[2]+','+al.toFixed(3)+')';
       ctx.fill();
-      if(N.hub){ // faint ring on hubs
-        ctx.beginPath(); ctx.arc(nx,ny,N.r+3.2*DPR,0,Math.PI*2);
-        ctx.strokeStyle='rgba('+SIGNAL[0]+','+SIGNAL[1]+','+SIGNAL[2]+',0.26)';
+
+      if(N.t){
+        ctx.beginPath(); ctx.arc(nx,ny,N.r+3.4*DPR,0,Math.PI*2);
+        ctx.strokeStyle='rgba('+SIGNAL[0]+','+SIGNAL[1]+','+SIGNAL[2]+','+((0.20+near*0.35)*vz).toFixed(3)+')';
         ctx.lineWidth=1*DPR; ctx.stroke();
+        var la=(0.20+near*0.55)*vz;
+        ctx.fillStyle='rgba(200,222,240,'+la.toFixed(3)+')';
+        ctx.fillText(N.t, nx, ny-9*DPR);
       }
     }
 
-    // packets travelling the links
+    if(time-zoneT>350){ collectZones(); zoneT=time; }
+
     if(!reduce){
       for(var p=0;p<packets.length;p++){
         var P=packets[p], L2=links[P.l];
-        if(!L2){ packets[p]=newPacket(); continue; }
+        if(!L2){packets[p]=newPacket();continue;}
         P.t+=P.sp*P.dir;
-        if(P.t>1||P.t<0){ packets[p]=newPacket(); continue; }
+        if(P.t>1||P.t<0){packets[p]=newPacket();continue;}
         var px=L2._ax+(L2._bx-L2._ax)*P.t, py=L2._ay+(L2._by-L2._ay)*P.t;
-        var g=ctx.createRadialGradient(px,py,0,px,py,7*DPR);
-        g.addColorStop(0,'rgba('+SIGNAL[0]+','+SIGNAL[1]+','+SIGNAL[2]+',0.5)');
-        g.addColorStop(1,'rgba('+SIGNAL[0]+','+SIGNAL[1]+','+SIGNAL[2]+',0)');
-        ctx.beginPath(); ctx.arc(px,py,7*DPR,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
-        ctx.beginPath(); ctx.arc(px,py,1.5*DPR,0,Math.PI*2);
-        ctx.fillStyle='rgba('+SIGNAL[0]+','+SIGNAL[1]+','+SIGNAL[2]+',0.85)'; ctx.fill();
+        var col2=L2.same?SIGNAL:AMBER;
+        var pv=vis(px,py); if(pv<=0.02) continue;
+        var g=ctx.createRadialGradient(px,py,0,px,py,8*DPR);
+        g.addColorStop(0,'rgba('+col2[0]+','+col2[1]+','+col2[2]+','+(0.45*pv).toFixed(3)+')');
+        g.addColorStop(1,'rgba('+col2[0]+','+col2[1]+','+col2[2]+',0)');
+        ctx.beginPath(); ctx.arc(px,py,8*DPR,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+        ctx.beginPath(); ctx.arc(px,py,1.6*DPR,0,Math.PI*2);
+        ctx.fillStyle='rgba('+col2[0]+','+col2[1]+','+col2[2]+','+(0.9*pv).toFixed(3)+')'; ctx.fill();
       }
     }
+
+  }
+
+  /* content-aware mask: the field dissolves behind real content */
+  var zones=[], zoneT=-9999;
+  function collectZones(){
+    zones=[];
+    var sel='.page.active h1,.page.active h2,.page.active p,.page.active .pipe,'+
+            '.page.active .frame,.page.active .hero-cta,.page.active .chapter>.wrap,'+
+            '.topbar .wrap,.page.active .pcard,.page.active .exp,.page.active form';
+    document.querySelectorAll(sel).forEach(function(el){
+      var r=el.getBoundingClientRect();
+      if(r.width<40||r.height<14) return;
+      if(r.bottom<-80||r.top>innerHeight+80) return;
+      zones.push([r.left*DPR,r.top*DPR,r.width*DPR,r.height*DPR]);
+    });
+  }
+  /* cheap distance falloff instead of a per-frame canvas blur */
+  function vis(x,y){
+    var m=1;
+    for(var z=0;z<zones.length;z++){
+      var Z=zones[z];
+      var dx=Math.max(Z[0]-x, 0, x-(Z[0]+Z[2]));
+      var dy=Math.max(Z[1]-y, 0, y-(Z[1]+Z[3]));
+      var d=Math.sqrt(dx*dx+dy*dy);
+      var pad=46*DPR;
+      var f=d>=pad?1:(d/pad);
+      if(f<m) m=f;
+      if(m<=0) return 0;
+    }
+    return m*m;
   }
 
   size();
-  addEventListener('resize',function(){clearTimeout(window.__nbT);window.__nbT=setTimeout(size,180)});
+  addEventListener('resize',function(){clearTimeout(window.__smT);window.__smT=setTimeout(size,180)});
+  addEventListener('scroll',function(){zoneT=-9999;},{passive:true});
   addEventListener('pointermove',function(e){mx=e.clientX*DPR;my=e.clientY*DPR;},{passive:true});
   addEventListener('pointerleave',function(){mx=-9999;my=-9999;});
 
